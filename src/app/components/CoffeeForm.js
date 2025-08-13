@@ -9,15 +9,17 @@ export default function CoffeeForm({ onCoffeeAdded }) {
   });
 
   const handleChange = (e) => {
+    console.log('handleChange', e.target.name, e.target.value);
+    console.log('formData before change', formData);
     setFormData({ 
       ...formData, 
       [e.target.name]: e.target.value 
     });
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const res = await fetch("http://127.0.0.1:8000/api/coffees", {
       method: "POST",
       headers: {
@@ -34,6 +36,18 @@ export default function CoffeeForm({ onCoffeeAdded }) {
       }
     }
   };
+
+  let coffeeOrdered = useState({    cname: "",
+    price: "",
+    category: "coffee",
+  qty:0})
+
+  const handleAddCoffeeQty = async (coffeeId, qty) => {
+    coffeeOrdered.qty = qty;
+    coffeeOrdered.cname = coffeeId;
+    console.log('handleAddCoffeeQty', coffeeId, qty);
+  }
+  handleAddCoffeeQty(coffeeOrdered.cname, coffeeOrdered.qty);
 
   return (
     <form onSubmit={handleSubmit} className="mb-6 p-4 border rounded">
